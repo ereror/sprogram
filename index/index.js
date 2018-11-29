@@ -14,7 +14,8 @@ Page({
     imgsrc: '',
     imgW: 0,
     imgH: 0,
-    byclear: 1
+    byclear: 1,
+    zoommodel: false
   },
   onReady() {
     var that = this
@@ -46,17 +47,24 @@ Page({
     var vhsrc = e.detail.height / e.detail.width
     let res = this.data.res
     let byclear = this.data.byclear
+    let zoommode = this.data.zoommodel
     const ctx = wx.createCanvasContext('canvasIn', this);
-    if (e.detail.width > 375 * byclear) ctx.scale(375 * byclear / e.detail.width, 375 * byclear / e.detail.width);
+    if ((e.detail.width > 375 * byclear) && !zoommode) ctx.scale(375 * byclear / e.detail.width, 375 * byclear / e.detail.width);
     ctx.drawImage(res.tempFilePaths[0], 0, 0, e.detail.width, e.detail.width * vhsrc)
-    // ctx.drawImage(res.tempFilePaths[0], 0, 0, e.detail.width, e.detail.width * vhsrc)
     ctx.draw()
-    this.setData({
-      // imgW: e.detail.width * 2 / byclear,
-      // imgH: e.detail.height * 2 / byclear
-      imgW: e.detail.width > 375 ? 750 : e.detail.width * 2 / byclear,
-      imgH: e.detail.width > 375 ? 750 * vhsrc : e.detail.width * vhsrc * 2 / byclear
-    })
+    if (!zoommode) {
+      this.setData({
+        // imgW: e.detail.width * 2 / byclear,
+        // imgH: e.detail.height * 2 / byclear
+        imgW: e.detail.width > 375 ? 750 : e.detail.width * 2 / byclear,
+        imgH: e.detail.width > 375 ? 750 * vhsrc : e.detail.width * vhsrc * 2 / byclear
+      })
+    } else {
+      this.setData({
+        imgW: e.detail.width * 2 / byclear,
+        imgH: e.detail.height * 2 / byclear
+      })
+    }
   },
   export() {
     wx.canvasToTempFilePath({
@@ -77,7 +85,15 @@ Page({
       }
     }, this)
   },
+  gozoom(){
+    let zoomnodel = !this.data.zoommodel
+    if (zoomnodel) {
 
+    }
+    this.setData({
+      zoommodel: zoomnodel
+    })
+  },
   process() {
     const cfg = {
       x: 0,

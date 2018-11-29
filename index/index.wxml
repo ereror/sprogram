@@ -1,7 +1,8 @@
  <image src='{{imgsrc}}' bindload='checkwh' style='display:none;' mode='widthFix' />
- <canvas canvas-id="canvasIn" class="canvas" style="width:{{imgW}}rpx;height:{{imgH}}rpx;margin:0 auto;"></canvas>
- <view>zoom:{{imgW > 750 ? 750 / imgW : 1}}</view>
- <canvas canvas-id="canvasOut" class="canvas" style="width:{{imgW}}rpx;height:{{imgH}}rpx;margin:0 auto;"></canvas>
+ <canvas canvas-id="canvasIn" class="canvas" style="width:{{imgW}}rpx;height:{{imgH}}rpx;margin:0 auto;zoom:{{zoommodel && imgW > 750 ? 750 / imgW : 1}}"></canvas>
+ <view>当前版本 {{zoommodel? 'zoom版':'scale版'}}</view>
+ <canvas canvas-id="canvasOut" class="canvas" style="width:{{imgW}}rpx;height:{{imgH}}rpx;margin:0 auto;zoom:{{zoommodel && imgW > 750 ? 750 / imgW : 1}}"></canvas>
  <button bindtap="openAndDraw">打开图片并绘制</button>
  <button bindtap="process">处理图像</button>
  <button bindtap="export">导出画布至图片</button>
+ <button bindtap="gozoom">切换zoom版</button>
